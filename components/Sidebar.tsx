@@ -5,6 +5,7 @@ import { Code2, ImageIcon, LayoutDashboard, MessageSquare, Music, Settings, Vide
 import { Montserrat } from 'next/font/google'
 import Image from 'next/image'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import React from 'react'
 
 const montserrat = Montserrat({ weight: "600", subsets: ["latin"] })
@@ -55,15 +56,18 @@ const routes = [
 ]
 const Sidebar = () => {
 
+	const pathname = usePathname()
 
 	return (
 		<div className="space-y-4 py-4 text-white
 					flex flex-col h-full bg-[#111827]">
 			<div className="px-3 py-2 flex-1">
-				<Link href="/dashboard" className="flex items-center pl-3 mb-14">
+				<Link href="/dashboard" className=
+					"flex items-center pl-3 mb-14">
 					<div className="relative w-8 h-8 mr-4">
 						<Image
 							fill
+							sizes=''
 							alt="logo"
 							src="/logo.png"
 						/>
@@ -75,9 +79,8 @@ const Sidebar = () => {
 						<Link
 							href={route.href}
 							key={route.href}
-							className="text-sm group flex p-3 w-full
-							justify-start font-medium hover:bg-white/10
-							rounded-lg transition"
+							className={cn("text-sm group flex p-3 w-full justify-start font-medium hover:bg-white/10 rounded-lg transition",
+								pathname === route.href ? "bg-white/10" : "text-zinc-400")}
 						>
 							<div className="flex flex-1 items-center">
 								<route.icon className={cn("h-5 w-5 mr-3", route.color)} />
