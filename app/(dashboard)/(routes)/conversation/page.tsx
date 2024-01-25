@@ -120,7 +120,7 @@ const ConversationPage = () => {
 							{message.role === 'user' ? <UserAvatar /> : <BotAvatar />
 							}
 							<p>
-								{message.content}
+								{message.content || ""}
 							</p>
 						</div>
 					))}

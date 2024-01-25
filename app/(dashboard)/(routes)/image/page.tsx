@@ -4,10 +4,10 @@ import * as z from 'zod'
 import { cn } from '@/lib/utils'
 import { Heading } from '@/components/Heading'
 import axios from 'axios'
-import { ImageIcon } from 'lucide-react'
+import { Download, ImageIcon } from 'lucide-react'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { amountOptions, formSchema } from './constants'
+import { amountOptions, formSchema, resolutionOptions } from './constants'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
@@ -18,6 +18,8 @@ import Loader from '@/components/ui/Loader'
 import UserAvatar from '@/components/UserAvatar'
 import BotAvatar from '@/components/BotAvatar'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Card, CardFooter } from '@/components/ui/card'
+import Image from 'next/image'
 
 
 
@@ -39,6 +41,7 @@ const ImagePage = () => {
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
 		try {
 			setImages([])
+			console.log(values);
 			const response = await axios.post('/api/image', values)
 			const urls = response.data.map((image: { url: string }) => image.url)
 			setImages(urls)
@@ -109,7 +112,33 @@ const ImagePage = () => {
 							</FormItem>
 						)}
 					>
+					</FormField>
+					<FormField
+						control={form.control}
+						name="resolution"
+						render={({ field }) => (
+							<FormItem className="col-span-12 lg:col-span-2">
+								<Select
+									disabled={isLoading}
+									onValueChange={field.onChange}
+									value={field.value}
+									defaultValue={field.value}
+								>
+									<FormControl>
+										<SelectTrigger>
+											<SelectValue defaultValue={field.value} />
+										</SelectTrigger>
+									</FormControl>
+									<SelectContent>
+										{resolutionOptions.map((resolutionOption) => (
+											<SelectItem value={resolutionOption.value}>{resolutionOption.value}</SelectItem>
+										))}
+									</SelectContent>
 
+								</Select>
+							</FormItem>
+						)}
+					>
 					</FormField>
 					<Button
 						type="submit"
@@ -131,8 +160,28 @@ const ImagePage = () => {
 						<Empty label="No images generated" />
 					</div>
 				)}
-				<div>
-					Images will be rendered here
+				<div className="
+				grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-8
+				">
+					{images.map(src => (
+						<Card key={src} className="founded-lg overflow-hidden" >
+							<div className="relative aspect-square">
+								<Image alt="image"
+									fill
+									src={src}
+								/>
+							</div>
+							<CardFooter className="p-2">
+								<Button
+									onClick={() => window.open(src)}
+									variant="secondary"
+									className="w-full">
+									<Download className="h-4 w-4 mr-2" />
+									Download
+								</Button>
+							</CardFooter>
+						</Card>
+					))}
 				</div>
 			</div>
 
