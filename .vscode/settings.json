@@ -4,6 +4,7 @@
 		"lucide",
 		"nextjs",
 		"oaidalleapiprodscus",
-		"openai"
+		"openai",
+		"prismadb"
 	]
 }
