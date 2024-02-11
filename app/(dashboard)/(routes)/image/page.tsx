@@ -104,7 +104,7 @@ const ImagePage = () => {
 									</FormControl>
 									<SelectContent>
 										{amountOptions.map((amountOption) => (
-											<SelectItem value={amountOption.value}>{amountOption.value}</SelectItem>
+											<SelectItem key={amountOption.value + Math.random()} value={amountOption.value}>{amountOption.value}</SelectItem>
 										))}
 									</SelectContent>
 
@@ -131,7 +131,7 @@ const ImagePage = () => {
 									</FormControl>
 									<SelectContent>
 										{resolutionOptions.map((resolutionOption) => (
-											<SelectItem value={resolutionOption.value}>{resolutionOption.value}</SelectItem>
+											<SelectItem key={resolutionOption.value + Math.random()} value={resolutionOption.value}>{resolutionOption.value}</SelectItem>
 										))}
 									</SelectContent>
 
